@@ -374,42 +374,35 @@ function main() {
       )
     );
 
-    function getNewVertices() {
-      let initialVertices = modelType.vertices;
-
+    function getNewVertices(){
+  
+      let initialVertices = modelType.vertices
+  
       const tempVertices = new Float32Array(initialVertices.length);
-
+  
       for (let i = 0; i < initialVertices.length; i += 3) {
-        let vertex = [
-          initialVertices[i],
-          initialVertices[i + 1],
-          initialVertices[i + 2],
-        ];
-
+        let x = initialVertices[i] ;
+        let y = initialVertices[i + 1] ;
+        let z = initialVertices[i + 2] ;
+  
         let transformedVertex = [
-          transformationMatrix[0] * vertex[0] +
-            transformationMatrix[4] * vertex[1] +
-            transformationMatrix[8] * vertex[2] +
-            transformationMatrix[12],
-          transformationMatrix[1] * vertex[0] +
-            transformationMatrix[5] * vertex[1] +
-            transformationMatrix[9] * vertex[2] +
-            transformationMatrix[13],
-          transformationMatrix[2] * vertex[0] +
-            transformationMatrix[6] * vertex[1] +
-            transformationMatrix[10] * vertex[2] +
-            transformationMatrix[14],
+          projectionMatrix[0] * transformationMatrix[0] * x + projectionMatrix[1] * transformationMatrix[4] * y + projectionMatrix[2] * transformationMatrix[8] * z * -1 + projectionMatrix[3] * transformationMatrix[12],
+          projectionMatrix[4] * transformationMatrix[1] * x + projectionMatrix[5] * transformationMatrix[5] * y + projectionMatrix[6] * transformationMatrix[9] * z * -1 + projectionMatrix[7] * transformationMatrix[13],
+          projectionMatrix[8] * transformationMatrix[2] * x + projectionMatrix[9] * transformationMatrix[6] * y + projectionMatrix[10] * transformationMatrix[10] * z * -1 + projectionMatrix[11] * transformationMatrix[14]
         ];
-
+  
+        // if (projectionType === "perspective"){
+        
+        // }
         tempVertices[i] = transformedVertex[0];
         tempVertices[i + 1] = transformedVertex[1];
         tempVertices[i + 2] = transformedVertex[2];
       }
-
+      
       let transformedVertices = Array.prototype.slice.call(tempVertices);
-
-      return transformedVertices;
-    }
+  
+      return transformedVertices
+  }
 
     const btn = document.querySelector("#save");
     btn.onclick = function (event) {
